@@ -1,19 +1,23 @@
 <style lang="scss">
   @import "./../../../assets/styles";
-.l-auth {
-    background-color: $background-tint;
+  .l-auth {
+    background-color: $background-color;
     padding: 15px;
     margin: 45px auto;
     min-width: 272px;
     max-width: 320px;
     animation: bounceIn 1s forwards ease;
+    label, input, .icon {
+      color: #29b6f6!important;
+    }
+    .input-group__details {
+      &:before {
+        background-color: $border-color-input !important;
+      }
+    }
   }
-.l-signup {
-    background-color: $background-tint;
-    padding: 15px;
-    margin: 45px auto;
-    min-width: 272px;
-    max-width: 320px;
+  .l-signup {
+    @extend .l-auth;
     animation: slideInFromLeft 1s forwards ease;
   }
 </style>
