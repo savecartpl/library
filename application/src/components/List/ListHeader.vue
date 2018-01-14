@@ -9,9 +9,9 @@
 </template>
 
 <script>
-  export default {
-    props: ['headers']
-  }
+export default {
+  props: ['headers']
+}
 </script>
 
 <style lang="scss">

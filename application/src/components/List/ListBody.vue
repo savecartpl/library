@@ -26,9 +26,9 @@
 </template>
 
 <script>
-  export default {
-    props: ['data', 'budgetsVisible']
-  }
+export default {
+  props: ['data', 'budgetsVisible']
+}
 </script>
 
 <style lang="scss">

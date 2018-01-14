@@ -67,71 +67,71 @@
 </template>
 
 <script>
-  import Axios from 'axios'
-  import Authentication from '@/components/pages/Authentication'
-  import ListHeader from './../List/ListHeader'
-  import ListBody from './../List/ListBody'
+import Axios from 'axios'
+import Authentication from '@/components/pages/Authentication'
+import ListHeader from './../List/ListHeader'
+import ListBody from './../List/ListBody'
 
-  const BudgetManagerAPI = `http://${window.location.hostname}:49160`
+const BudgetManagerAPI = `http://${window.location.hostname}:49160`
 
-  export default {
-    components: {
-      'list-header': ListHeader,
-      'list-body': ListBody
+export default {
+  components: {
+    'list-header': ListHeader,
+    'list-body': ListBody
+  },
+  data () {
+    return {
+      budgets: [],
+      clients: [],
+      budgetHeaders: ['Client', 'Title', 'Status', 'Actions'],
+      clientHeaders: ['Client', 'Email', 'Phone', 'Actions'],
+      budgetsVisible: false,
+      snackbar: false,
+      timeout: 6000,
+      message: '',
+      fab: false
+    }
+  },
+  mounted () {
+    this.getAllBudgets()
+    this.getAllClients()
+  },
+  methods: {
+    getAllBudgets () {
+      Axios.get(`${BudgetManagerAPI}/api/v1/budget`, {
+        headers: { 'Authorization': Authentication.getAuthenticationHeader(this) },
+        params: { user_id: this.$cookie.get('user_id') }
+      }).then(({data}) => {
+        this.budgets = this.dataParser(data, '_id', 'client', 'title', 'state')
+      }).catch(error => {
+        this.snackbar = true
+        this.message = error.message
+      })
     },
-    data () {
-      return {
-        budgets: [],
-        clients: [],
-        budgetHeaders: ['Client', 'Title', 'Status', 'Actions'],
-        clientHeaders: ['Client', 'Email', 'Phone', 'Actions'],
-        budgetsVisible: false,
-        snackbar: false,
-        timeout: 6000,
-        message: '',
-        fab: false
-      }
-    },
-    mounted () {
-      this.getAllBudgets()
-      this.getAllClients()
-    },
-    methods: {
-      getAllBudgets () {
-        Axios.get(`${BudgetManagerAPI}/api/v1/budget`, {
-          headers: { 'Authorization': Authentication.getAuthenticationHeader(this) },
-          params: { user_id: this.$cookie.get('user_id') }
-        }).then(({data}) => {
-          this.budgets = this.dataParser(data, '_id', 'client', 'title', 'state')
-        }).catch(error => {
-          this.snackbar = true
-          this.message = error.message
-        })
-      },
 
-      getAllClients () {
-        Axios.get(`${BudgetManagerAPI}/api/v1/client`, {
-          headers: { 'Authorization': Authentication.getAuthenticationHeader(this) },
-          params: { user_id: this.$cookie.get('user_id') }
-        }).then(({data}) => {
-          this.clients = this.dataParser(data, 'name', 'client', 'email', 'phone')
-        }).catch(error => {
-          this.snackbar = true
-          this.message = error.message
-        })
-      },
+    getAllClients () {
+      Axios.get(`${BudgetManagerAPI}/api/v1/client`, {
+        headers: { 'Authorization': Authentication.getAuthenticationHeader(this) },
+        params: { user_id: this.$cookie.get('user_id') }
+      }).then(({data}) => {
+        this.clients = this.dataParser(data, 'name', 'client', 'email', 'phone')
+      }).catch(error => {
+        this.snackbar = true
+        this.message = error.message
+      })
+    },
 
-      dataParser (targetedArray, ...options) {
-        let parsedData = []
-        targetedArray.forEach(item => {
-          let parsedItem = {}
-          options.forEach(option => (parsedItem[option] = item[option]))
-          parsedData.push(parsedItem)
-        })
-        return parsedData
-      }
+    dataParser (targetedArray, ...options) {
+      let parsedData = []
+      targetedArray.forEach(item => {
+        let parsedItem = {}
+        options.forEach(option => (parsedItem[option] = item[option]))
+        parsedData.push(parsedItem)
+      })
+      return parsedData
     }
   }
+}
 </script>
 
 <style lang="scss" scoped>

@@ -34,24 +34,24 @@
 </template>
 
 <script>
-  import Authentication from '@/components/pages/Authentication'
-  export default {
-    props: ['budgetsVisible'],
-    data () {
-      return {
-        search: '',
-        status: '',
-        statusItems: [
-          'All', 'Approved', 'Denied', 'Waiting', 'Writing', 'Editing'
-        ]
-      }
-    },
-    methods: {
-      submitSignout () {
-        Authentication.signout(this, '/login')
-      }
+import Authentication from '@/components/pages/Authentication'
+export default {
+  props: ['budgetsVisible'],
+  data () {
+    return {
+      search: '',
+      status: '',
+      statusItems: [
+        'All', 'Approved', 'Denied', 'Waiting', 'Writing', 'Editing'
+      ]
+    }
+  },
+  methods: {
+    submitSignout () {
+      Authentication.signout(this, '/login')
     }
   }
+}
 </script>
 
 <style lang="scss">

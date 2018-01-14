@@ -1,6 +1,6 @@
-# budget-manager
+# library
 
-> A Vue.js project
+> SaveCart library
 
 ## Build Setup
 
